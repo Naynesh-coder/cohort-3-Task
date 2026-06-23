@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager App - JavaScript DOM Project</title>
+
+  <!-- Favicon - shows up in the browser tab -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Linking our external CSS file -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<!--
+  We are adding a custom attribute called data-theme on the body tag.
+  This attribute will help us switch between "light" and "dark" mode.
+  We will change this value using JavaScript when the user clicks the toggle button.
+-->
+<body data-theme="light">
+
+  <!-- ===================== HEADER SECTION ===================== -->
+  <header class="app-header">
+    <h1>📝 Task Manager App</h1>
+    <p class="subtitle">A simple project to practice DOM, Events and JavaScript</p>
+
+    <!-- Theme toggle button - Feature 5 -->
+    <button id="themeToggleBtn" class="theme-btn">🌙 Switch to Dark Mode</button>
+  </header>
+
+  <!-- ===================== MAIN CONTAINER ===================== -->
+  <main class="main-container">
+
+    <!-- ===================== FEATURE 1: TASK CREATION FORM ===================== -->
+    <section class="card form-section">
+      <h2>Add a New Task</h2>
+
+      <!-- 
+        We are using a <form> tag so that we can use the "submit" event.
+        We will stop the page from refreshing using event.preventDefault()
+      -->
+      <form id="taskForm">
+        <div class="form-group">
+          <label for="taskTitleInput">Task Title</label>
+          <input
+            type="text"
+            id="taskTitleInput"
+            placeholder="Example: Finish JavaScript homework"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="categorySelect">Category</label>
+          <select id="categorySelect">
+            <option value="Study">Study</option>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <button type="submit" class="primary-btn">+ Add Task</button>
+      </form>
+    </section>
+
+    <!-- ===================== BONUS FEATURES: SEARCH + FILTER + COUNTERS ===================== -->
+    <section class="card tools-section">
+      <h2>Search &amp; Filter</h2>
+
+      <div class="tools-row">
+        <!-- Search box - Bonus Feature -->
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="🔍 Search tasks by title..."
+          class="search-box"
+        >
+
+        <!-- Category filter dropdown - Bonus Feature -->
+        <select id="filterSelect" class="search-box">
+          <option value="All">All Categories</option>
+          <option value="Study">Study</option>
+          <option value="Work">Work</option>
+          <option value="Personal">Personal</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <!-- Clear All button - Bonus Feature -->
+        <button id="clearAllBtn" class="danger-btn">Clear All Tasks</button>
+      </div>
+
+      <!-- Counters - Bonus Feature -->
+      <div class="counters">
+        <p>✅ Completed Tasks: <span id="completedCount">0</span></p>
+        <p>⏳ Pending Tasks: <span id="pendingCount">0</span></p>
+      </div>
+    </section>
+
+    <!-- ===================== FEATURE 2: TASK LIST CONTAINER ===================== -->
+    <section class="card list-section">
+      <h2>Your Tasks</h2>
+
+      <!-- 
+        This message will be inserted "before" the task list using before() method.
+        It is hidden by default and only shown when there are no tasks.
+      -->
+      <p id="emptyMessage" class="empty-message">No tasks yet. Add one above to get started!</p>
+
+      <!-- 
+        This is our main container where all task cards will be placed.
+        We attach ONLY ONE event listener to this container (Event Delegation).
+        This is much better than adding a listener to every single button.
+      -->
+      <div id="taskContainer" class="task-container">
+        <!-- Task cards will be added here dynamically using JavaScript -->
+      </div>
+    </section>
+
+    <!-- ===================== FEATURE 3: ATTRIBUTES VS PROPERTIES DEMO ===================== -->
+    <section class="card demo-section">
+      <h2>Attributes vs Properties Demo</h2>
+      <p class="demo-info">
+        This input starts with an HTML <code>value="Default Value"</code> attribute.
+        Type something in the box below, then open your browser console (F12) to see
+        the difference between the <strong>attribute</strong> (original HTML value) and the
+        <strong>property</strong> (current live value).
+      </p>
+
+      <input type="text" id="demoInput" value="Default Value" class="search-box">
+
+      <button id="checkValueBtn" class="primary-btn">Check Attribute vs Property in Console</button>
+
+      <div class="demo-output">
+        <p>Attribute (getAttribute): <span id="attributeOutput">-</span></p>
+        <p>Property (.value): <span id="propertyOutput">-</span></p>
+      </div>
+    </section>
+
+    <!-- ===================== FEATURE 8 & 9: EVENT PROPAGATION DEMO ===================== -->
+    <section class="card demo-section">
+      <h2>Event Bubbling &amp; Capturing Demo</h2>
+      <p class="demo-info">
+        Click the button inside the boxes below. Then open your browser console (F12)
+        to see the order in which the click event travels through the elements.
+      </p>
+
+      <!-- Toggle to switch between bubbling and capturing demo -->
+      <label class="checkbox-label">
+        <input type="checkbox" id="captureToggle">
+        Enable Capturing Mode (normally it is Bubbling Mode)
+      </label>
+
+      <!-- Nested boxes: Grandparent > Parent > Child Button -->
+      <div id="grandparentBox" class="propagation-box grandparent-box">
+        Grandparent
+        <div id="parentBox" class="propagation-box parent-box">
+          Parent
+          <button id="childButton" class="propagation-box child-box">
+            Child Button (Click Me)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FEATURE 10: BROWSER RENDERING PIPELINE ===================== -->
+    <section class="card pipeline-section">
+      <h2>Browser Rendering Pipeline</h2>
+      <p class="demo-info">
+        This is what happens inside the browser from the moment it receives your
+        HTML and CSS code to the moment you see something on the screen.
+      </p>
+
+      <div class="pipeline-track">
+
+        <div class="pipeline-card">
+          <h3>1. HTML</h3>
+          <p>The browser downloads the raw HTML file as plain text from the server.</p>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-card">
+          <h3>2. Parsing &amp; Tokenization</h3>
+          <p>The browser reads the HTML text and breaks it into small pieces called tokens (like start tags, end tags, and text).</p>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-card">
+          <h3>3. DOM Tree</h3>
+          <p>Tokens are turned into objects and connected together to form the DOM (Document Object Model) tree.</p>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-card">
+          <h3>4. CSS Parsing</h3>
+          <p>The browser reads all CSS rules from style tags and linked stylesheets.</p>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-card">
+          <h3>5. CSSOM Tree</h3>
+          <p>CSS rules are converted into the CSSOM (CSS Object Model), a tree of style information.</p>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-card">
+          <h3>6. DOM + CSSOM</h3>
+          <p>The browser combines the DOM and CSSOM together so it knows both structure and style.</p>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-card">
+          <h3>7. Render Tree</h3>
+          <p>Only the visible elements (not display:none ones) are kept to build the Render Tree.</p>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-card">
+          <h3>8. Paint</h3>
+          <p>The browser fills in pixels - colors, text, images, borders and shadows.</p>
+        </div>
+
+        <div class="pipeline-arrow">↓</div>
+
+        <div class="pipeline-card">
+          <h3>9. Screen Display</h3>
+          <p>The final picture is shown to the user on the screen. This whole process repeats whenever something changes!</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="app-footer">
+    <p>Made with HTML, CSS and Vanilla JavaScript | DOM Practice Project</p>
+  </footer>
+
+  <!-- Linking our external JavaScript file at the bottom so HTML loads first -->
+  <script src="script.js"></script>
+</body>
+</html>

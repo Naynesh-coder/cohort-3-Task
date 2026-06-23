@@ -1,0 +1,464 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  --bg-color: #f4f6f8;
+  --card-bg: #ffffff;
+  --text-color: #222222;
+  --subtitle-color: #5a5a5a;
+  --primary-color: #4a90e2;
+  --primary-hover: #3a7bc8;
+  --danger-color: #e25c5c;
+  --danger-hover: #cc4747;
+  --border-color: #dddddd;
+  --pending-color: #f0ad4e;
+  --completed-color: #5cb85c;
+
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.5;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 
+  Dark theme colors.
+  This rule only applies when body has data-theme="dark".
+  JavaScript will switch this attribute when the toggle button is clicked.
+*/
+body[data-theme="dark"] {
+  --bg-color: #181a1b;
+  --card-bg: #242628;
+  --text-color: #f1f1f1;
+  --subtitle-color: #b5b5b5;
+  --primary-color: #5aa3f0;
+  --primary-hover: #4690de;
+  --border-color: #3a3a3a;
+}
+
+/* ==========================================================
+   HEADER SECTION
+   ========================================================== */
+
+.app-header {
+  text-align: center;
+  padding: 30px 20px;
+  background-color: var(--card-bg);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.app-header h1 {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: var(--subtitle-color);
+  margin-bottom: 15px;
+}
+
+/* Theme toggle button styling */
+.theme-btn {
+  padding: 8px 16px;
+  border: 2px solid var(--primary-color);
+  border-radius: 20px;
+  background-color: transparent;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.theme-btn:hover {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+/* ==========================================================
+   MAIN LAYOUT
+   ========================================================== */
+
+.main-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Card style used by every section on the page */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  padding: 20px 25px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.card h2 {
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 8px;
+}
+
+/* ==========================================================
+   FORM SECTION (Feature 1)
+   ========================================================== */
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Shared input styling */
+input[type="text"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+input[type="text"]:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Buttons */
+.primary-btn,
+.danger-btn,
+.edit-btn,
+.complete-btn,
+.delete-btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 16px;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.primary-btn {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+.primary-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+.danger-btn {
+  background-color: var(--danger-color);
+  color: #ffffff;
+}
+
+.danger-btn:hover {
+  background-color: var(--danger-hover);
+}
+
+/* Adding a tiny "press" effect for all buttons on click */
+button:active {
+  transform: scale(0.97);
+}
+
+/* ==========================================================
+   SEARCH AND FILTER TOOLS SECTION
+   ========================================================== */
+
+.tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 150px;
+}
+
+.counters {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  font-weight: bold;
+}
+
+#completedCount {
+  color: var(--completed-color);
+}
+
+#pendingCount {
+  color: var(--pending-color);
+}
+
+/* ==========================================================
+   TASK LIST SECTION (Feature 2)
+   ========================================================== */
+
+.empty-message {
+  text-align: center;
+  color: var(--subtitle-color);
+  padding: 15px 0;
+}
+
+/* Hide the empty message using a simple class instead of inline style */
+.hidden {
+  display: none;
+}
+
+.task-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Each task card */
+.task-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px;
+  background-color: var(--bg-color);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.task-card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 
+  When a task is completed, we add this class.
+  The line-through style and faded look show the task is done.
+*/
+.task-card.completed-task .task-title {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.task-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task-title {
+  font-size: 1.05rem;
+  font-weight: bold;
+}
+
+.task-category {
+  font-size: 0.8rem;
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  width: fit-content;
+}
+
+.task-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn {
+  background-color: #f0ad4e;
+  color: #ffffff;
+}
+
+.edit-btn:hover {
+  background-color: #d99633;
+}
+
+.complete-btn {
+  background-color: var(--completed-color);
+  color: #ffffff;
+}
+
+.complete-btn:hover {
+  background-color: #4a9d4a;
+}
+
+.delete-btn {
+  background-color: var(--danger-color);
+  color: #ffffff;
+}
+
+.delete-btn:hover {
+  background-color: var(--danger-hover);
+}
+
+/* Status message inserted "after" a task using after() method */
+.status-message {
+  font-size: 0.8rem;
+  color: var(--completed-color);
+  font-style: italic;
+}
+
+/* ==========================================================
+   DEMO SECTIONS (Attributes vs Properties / Event Propagation)
+   ========================================================== */
+
+.demo-info {
+  margin-bottom: 12px;
+  color: var(--subtitle-color);
+  font-size: 0.95rem;
+}
+
+.demo-output {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: var(--bg-color);
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+.checkbox-label {
+  display: block;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+/* ==========================================================
+   EVENT BUBBLING / CAPTURING BOXES (Feature 8 and 9)
+   ========================================================== */
+
+.propagation-box {
+  border: 2px dashed var(--primary-color);
+  border-radius: 8px;
+  padding: 25px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.grandparent-box {
+  background-color: rgba(74, 144, 226, 0.1);
+}
+
+.parent-box {
+  background-color: rgba(74, 144, 226, 0.2);
+  margin-top: 15px;
+}
+
+.child-box {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  margin-top: 15px;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+}
+
+.child-box:hover {
+  background-color: var(--primary-hover);
+}
+
+/* ==========================================================
+   BROWSER RENDERING PIPELINE SECTION (Feature 10)
+   ========================================================== */
+
+.pipeline-track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.pipeline-card {
+  width: 100%;
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  padding: 12px 16px;
+  background-color: var(--bg-color);
+  transition: transform 0.2s ease;
+}
+
+.pipeline-card:hover {
+  transform: scale(1.02);
+}
+
+.pipeline-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 4px;
+  font-size: 1rem;
+}
+
+.pipeline-card p {
+  font-size: 0.9rem;
+  color: var(--subtitle-color);
+}
+
+.pipeline-arrow {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  color: var(--subtitle-color);
+  font-size: 0.85rem;
+}
+
+/* ==========================================================
+   RESPONSIVE DESIGN - MOBILE FRIENDLY
+   ========================================================== */
+
+@media (max-width: 600px) {
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .task-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-buttons {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .tools-row {
+    flex-direction: column;
+  }
+
+  .counters {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
